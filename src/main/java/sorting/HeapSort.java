@@ -2,6 +2,8 @@ package sorting;
 
 import utility.ArrayUtility;
 
+import java.util.Arrays;
+
 public class HeapSort {
 
     int[] array = new int[128];
@@ -11,24 +13,30 @@ public class HeapSort {
         HeapSort sort = new HeapSort();
 
         ArrayUtility.fillRandoms(sort.array); //fills array with random integer
+
+        //amking one extra copy to evaluate the resu;t
+        int [] copy = Arrays.copyOf(sort.array,sort.array.length);
+
         ArrayUtility.printArray(sort.array, "intial print count:"+ count); // print your message first in next line it prints all the array members
         sort.sort();
         ArrayUtility.printArray(sort.array, " final print count: "+ count);
+        //now doing a java's default sort and finding if my results are good or not
+        Arrays.sort(copy);
 
-        System.out.println("\n\n====\n\n"+ count);
+        System.out.println("\n\n====\n\n"+ count+"\n\n\n====="+Arrays.equals(sort.array, copy));
     }
 
     void sort() {
 
         //build heap array first
-        for (int i = 0; i < array.length / 2; i++) {
-            heapify(array, i, array.length );
+        for (int i = array.length-1; i >= 0; i--) {
+            heapify(array, i, array.length-1 );
         }
 
         ArrayUtility.printArray(array, " print after heapify, before deletion count "+ count);
 
         //now start deleting with last node exchange
-        for( int i = array.length -1; i > 0; i-- ){
+        for( int i = array.length -1; i >= 0; i-- ){
             int temp = array[i];
             array[i] = array[0];
             array[0] = temp;
@@ -42,8 +50,7 @@ public class HeapSort {
         int right = 2 * (indexToHeapify + 1);
 
         //heapify left
-
-        if (left <= length-1 && array[left] > array[indexToHeapify]) {
+        if (left <= length && array[left] > array[indexToHeapify]) {
             //swap with left
             int temp = array[left];
             array[left] = array[indexToHeapify];
@@ -54,9 +61,7 @@ public class HeapSort {
         }
 
         //heapify right
-
-
-        if (right <= length-1 && array[right] > array[indexToHeapify]) {
+        if (right <= length && array[right] > array[indexToHeapify]) {
             //swap with right
             int temp = array[right];
             array[right] = array[indexToHeapify];
